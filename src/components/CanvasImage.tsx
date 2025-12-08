@@ -60,6 +60,8 @@ export const CanvasImage: React.FC<CanvasImageProps> = ({ item, isSelected, onSe
                 y={item.y}
                 width={item.width}
                 height={item.height}
+                scaleX={item.scale}
+                scaleY={item.scale}
                 rotation={item.rotation}
 
                 // Styles not handled by getItemStyles

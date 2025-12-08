@@ -38,7 +38,7 @@ export const processDroppedImages = async (
             canvasWidth: canvasSettings.width,
             canvasHeight: canvasSettings.height,
             items: tempItems,
-            padding: 20
+            padding: canvasSettings.padding || 10
         });
 
         addCollageItems(layoutItems);

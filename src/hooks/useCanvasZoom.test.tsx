@@ -37,40 +37,36 @@ describe('useCanvasZoom', () => {
 
 
 
-    it('should handle wheel zoom via ref', () => {
-        let hookResult: { zoom: number } | undefined;
+
+    const renderZoomHook = () => {
+        let hookResult: ReturnType<typeof useCanvasZoom> | undefined;
         const TestComp = () => {
             const { containerRef, ...rest } = useCanvasZoom();
             useEffect(() => {
-                hookResult = { zoom: rest.zoom };
+                hookResult = { containerRef, ...rest };
             });
             return <div ref={containerRef} data-testid="zoom-container" />;
         };
 
         render(<TestComp />);
         const container = screen.getByTestId('zoom-container');
+        return { container, getHookResult: () => hookResult! };
+    };
+
+    it('should handle wheel zoom via ref', () => {
+        const { container, getHookResult } = renderZoomHook();
 
         // Zoom in (Ctrl + Wheel Up/Negative)
         fireEvent.wheel(container, { deltaY: -100, ctrlKey: true });
-        expect(hookResult!.zoom).toBeGreaterThan(1); // 1.1
+        expect(getHookResult().zoom).toBeGreaterThan(1); // 1.1
 
         // Zoom out (Ctrl + Wheel Down/Positive)
         fireEvent.wheel(container, { deltaY: 100, ctrlKey: true });
-        expect(hookResult!.zoom).toBeCloseTo(1);
+        expect(getHookResult().zoom).toBeCloseTo(1);
     });
 
     it('should ignore wheel without ctrl/meta', () => {
-        let hookResult: { zoom: number } | undefined;
-        const TestComp = () => {
-            const { containerRef, ...rest } = useCanvasZoom();
-            useEffect(() => {
-                hookResult = { zoom: rest.zoom };
-            });
-            return <div ref={containerRef} data-testid="zoom-container" />;
-        };
-
-        render(<TestComp />);
-        const container = screen.getByTestId('zoom-container');
+        const { container, getHookResult } = renderZoomHook();
 
         const preventDefault = vi.fn();
         const event = new WheelEvent('wheel', {
@@ -87,6 +83,6 @@ describe('useCanvasZoom', () => {
         });
 
         expect(preventDefault).not.toHaveBeenCalled();
-        expect(hookResult!.zoom).toBe(1); // Ensure zoom didn't change
+        expect(getHookResult().zoom).toBe(1); // Ensure zoom didn't change
     });
 });

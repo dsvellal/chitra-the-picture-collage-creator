@@ -22,8 +22,8 @@ export const calculateGridDimensions = (
     let rows = Math.ceil(count / cols);
     rows = Math.max(1, rows);
 
-    const cellWidth = (canvasWidth - padding * (cols + 1)) / cols;
-    const cellHeight = (canvasHeight - padding * (rows + 1)) / rows;
+    const cellWidth = Math.max(0, (canvasWidth - padding * (cols + 1)) / cols);
+    const cellHeight = Math.max(0, (canvasHeight - padding * (rows + 1)) / rows);
 
     return { cols, rows, cellWidth, cellHeight };
 };

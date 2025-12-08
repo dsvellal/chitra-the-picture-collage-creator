@@ -33,11 +33,13 @@ describe('useCanvasDrop', () => {
         });
     });
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const setupHook = (stageRef: any = mockStageRef) => {
+        return renderHook(() => useCanvasDrop(stageRef));
+    };
 
     it('should handle drop with single image src', () => {
-
-        const { result } = renderHook(() => useCanvasDrop(mockStageRef as unknown as React.RefObject<import('konva/lib/Stage').Stage>));
-
+        const { result } = setupHook();
         const mockEvent = {
             preventDefault: vi.fn(),
             dataTransfer: {
@@ -46,7 +48,6 @@ describe('useCanvasDrop', () => {
         };
 
         act(() => {
-
             result.current.handleDrop(mockEvent as unknown as React.DragEvent<HTMLDivElement>);
         });
 
@@ -62,8 +63,7 @@ describe('useCanvasDrop', () => {
     });
 
     it('should handle invalid JSON in drop', () => {
-
-        const { result } = renderHook(() => useCanvasDrop(mockStageRef as unknown as React.RefObject<import('konva/lib/Stage').Stage>));
+        const { result } = setupHook();
         const mockEvent = {
             preventDefault: vi.fn(),
             dataTransfer: {
@@ -81,10 +81,8 @@ describe('useCanvasDrop', () => {
     });
 
     it('should handle drop with multiple images json', () => {
-
-        const { result } = renderHook(() => useCanvasDrop(mockStageRef as unknown as React.RefObject<import('konva/lib/Stage').Stage>));
+        const { result } = setupHook();
         const srcs = ['img1.jpg', 'img2.jpg'];
-
         const mockEvent = {
             preventDefault: vi.fn(),
             dataTransfer: {
@@ -93,7 +91,6 @@ describe('useCanvasDrop', () => {
         };
 
         act(() => {
-
             result.current.handleDrop(mockEvent as unknown as React.DragEvent<HTMLDivElement>);
         });
 
@@ -103,8 +100,7 @@ describe('useCanvasDrop', () => {
     });
 
     it('should handle drag over', () => {
-
-        const { result } = renderHook(() => useCanvasDrop(mockStageRef as unknown as React.RefObject<import('konva/lib/Stage').Stage>));
+        const { result } = setupHook();
         const mockEvent = { preventDefault: vi.fn() };
 
         result.current.handleDragOver(mockEvent as unknown as React.DragEvent<HTMLDivElement>);
@@ -112,7 +108,7 @@ describe('useCanvasDrop', () => {
     });
 
     it('should handle drop with null stage', () => {
-        const { result } = renderHook(() => useCanvasDrop({ current: null }));
+        const { result } = setupHook({ current: null });
         const mockEvent = { preventDefault: vi.fn(), dataTransfer: { getData: vi.fn() } };
 
         result.current.handleDrop(mockEvent as unknown as React.DragEvent<HTMLDivElement>);
@@ -127,7 +123,7 @@ describe('useCanvasDrop', () => {
             }
         };
 
-        const { result } = renderHook(() => useCanvasDrop(mockStageNoPointer as unknown as React.RefObject<import('konva/lib/Stage').Stage>));
+        const { result } = setupHook(mockStageNoPointer);
         const mockEvent = { preventDefault: vi.fn(), dataTransfer: { getData: vi.fn() } };
 
         result.current.handleDrop(mockEvent as unknown as React.DragEvent<HTMLDivElement>);
