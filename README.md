@@ -76,3 +76,8 @@ This single command runs:
 5. 100% Coverage Checks
 6. Mutation Testing
 7. Spelling & Security Checks
+
+## 📚 Technical Architecture
+- [Performance Investigation](./docs/performance_investigation.md): Analysis of OffscreenCanvas and Web Helpers for 4K exports.
+- [Visual Regression](./docs/visual_regression_setup.md): Strategy for Playwright implementation (Phase 15).
+
