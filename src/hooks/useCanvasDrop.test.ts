@@ -1,6 +1,6 @@
-
 import { renderHook, act } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
+import Konva from 'konva';
 import { useCanvasDrop } from './useCanvasDrop';
 import { useCollageStore } from '../store/collageStore';
 import { processDroppedImages } from '../utils/imageProcessing';
@@ -18,6 +18,7 @@ describe('useCanvasDrop', () => {
     const mockAddItem = vi.fn();
     const mockStageRef = {
         current: {
+            getPointerPosition: vi.fn(),
             setPointersPositions: vi.fn(),
             getRelativePointerPosition: vi.fn(() => ({ x: 100, y: 100 }))
         }
@@ -33,8 +34,7 @@ describe('useCanvasDrop', () => {
         });
     });
 
-
-    const setupHook = (stageRef: any = mockStageRef) => {
+    const setupHook = (stageRef: React.RefObject<Konva.Stage | null> = mockStageRef as unknown as React.RefObject<Konva.Stage | null>) => {
         return renderHook(() => useCanvasDrop(stageRef));
     };
 
@@ -108,7 +108,7 @@ describe('useCanvasDrop', () => {
     });
 
     it('should handle drop with null stage', () => {
-        const { result } = setupHook({ current: null });
+        const { result } = setupHook({ current: null } as unknown as React.RefObject<Konva.Stage | null>);
         const mockEvent = { preventDefault: vi.fn(), dataTransfer: { getData: vi.fn() } };
 
         result.current.handleDrop(mockEvent as unknown as React.DragEvent<HTMLDivElement>);
@@ -123,7 +123,7 @@ describe('useCanvasDrop', () => {
             }
         };
 
-        const { result } = setupHook(mockStageNoPointer);
+        const { result } = setupHook(mockStageNoPointer as unknown as React.RefObject<Konva.Stage | null>);
         const mockEvent = { preventDefault: vi.fn(), dataTransfer: { getData: vi.fn() } };
 
         result.current.handleDrop(mockEvent as unknown as React.DragEvent<HTMLDivElement>);
