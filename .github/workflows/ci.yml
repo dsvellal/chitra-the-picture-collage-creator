@@ -38,7 +38,7 @@ jobs:
         run: npm run check:spelling
 
       - name: Unit Tests & Coverage
-        run: npm run test:coverage
+        run: npm run check:coverage
 
       - name: Mutation Testing
         run: npm run check:mutation
