@@ -73,11 +73,11 @@ This single command runs:
 2. Complexity Analysis
 3. Duplication Detection
 4. Offline Enforcement
-5. 100% Coverage Checks
-6. Mutation Testing
-7. Spelling & Security Checks
+56. 100% Coverage Checks
+7. Mutation Testing
+8. Spelling & Security Checks
+9. Visual Regression Testing (`npx playwright test`)
 
 ## 📚 Technical Architecture
 - [Performance Investigation](./docs/performance_investigation.md): Analysis of OffscreenCanvas and Web Helpers for 4K exports.
-- [Visual Regression](./docs/visual_regression_setup.md): Strategy for Playwright implementation.
-
+- [Visual Regression (Implemented)](./docs/visual_regression_setup.md): Strategy and validation for Playwright implementation.

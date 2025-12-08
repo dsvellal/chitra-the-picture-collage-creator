@@ -1,6 +1,8 @@
 # Visual Regression Testing Strategy (Playwright)
 
 ## Overview
+> **Status: IMPLEMENTED** (See `e2e/visual.spec.ts`)
+
 To prevent visual regressions (e.g., broken layouts, incorrect rendering of filters/shadows) that unit tests cannot catch, we recommend integrating **Playwright** for snapshot testing.
 
 ## Setup Guide

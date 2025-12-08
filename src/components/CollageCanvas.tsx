@@ -40,9 +40,10 @@ export const CollageCanvas: React.FC<CollageCanvasProps> = ({ stageRef, onEditRe
     return (
         <div
             ref={containerRef}
-            className="h-full flex-1 relative flex overflow-auto bg-slate-950/50 custom-scrollbar"
+            className="h-full flex-1 relative flex overflow-auto bg-canvas-bg/50 custom-scrollbar"
             onDrop={handleDrop}
             onDragOver={handleDragOver}
+            data-testid="collage-canvas-container"
         >
             <div className="min-w-full min-h-full flex items-center justify-center p-20">
                 <div
@@ -104,7 +105,7 @@ export const CollageCanvas: React.FC<CollageCanvasProps> = ({ stageRef, onEditRe
             </div>
 
             {/* Zoom Controls */}
-            <div className="absolute bottom-6 left-1/2 -translate-x-1/2 bg-slate-800/90 backdrop-blur border border-white/10 p-1.5 rounded-full flex items-center gap-1 shadow-xl z-20">
+            <div className="absolute bottom-6 left-1/2 -translate-x-1/2 bg-panel-bg/90 backdrop-blur border border-white/10 p-1.5 rounded-full flex items-center gap-1 shadow-xl z-20">
                 <button onClick={() => handleZoom(-0.1)} className="p-2 hover:bg-white/10 rounded-full text-slate-300 hover:text-white transition">
                     <ZoomOut size={16} />
                 </button>
@@ -120,9 +121,9 @@ export const CollageCanvas: React.FC<CollageCanvasProps> = ({ stageRef, onEditRe
 
             {collageItems.length === 0 && (
                 <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                    <div className="bg-slate-900/90 backdrop-blur p-8 rounded-3xl shadow-2xl border border-white/10 flex flex-col items-center">
-                        <div className="w-20 h-20 bg-indigo-500/10 rounded-full flex items-center justify-center mb-4 border border-indigo-500/20">
-                            <FileDown size={40} className="text-indigo-400" />
+                    <div className="bg-panel-bg/90 backdrop-blur p-8 rounded-3xl shadow-2xl border border-white/10 flex flex-col items-center">
+                        <div className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mb-4 border border-primary/20">
+                            <FileDown size={40} className="text-primary" />
                         </div>
                         <h3 className="text-xl font-bold text-white mb-1">Start Creating</h3>
                         <p className="text-slate-400">Drag photos from the library here</p>

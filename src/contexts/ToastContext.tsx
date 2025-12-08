@@ -1,4 +1,4 @@
-// eslint-disable-next-line @typescript-eslint/consistent-type-imports
+ 
 import React, { createContext, useContext, useState, useCallback, type ReactNode } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { AnimatePresence, motion } from 'framer-motion';

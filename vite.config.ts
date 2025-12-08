@@ -8,6 +8,7 @@ const config = JSON.parse(fs.readFileSync('./config/thresholds.json', 'utf8'));
 export default defineConfig({
   plugins: [react()],
   test: {
+    exclude: ['e2e/**', 'node_modules/**', 'dist/**', '.git/**'],
     environment: 'jsdom',
     setupFiles: './src/setupTests.ts',
     globals: true,

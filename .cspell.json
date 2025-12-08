@@ -39,7 +39,9 @@
     "mstroke",
     "mview",
     "mwidth",
-    "mxmlns"
+    "mxmlns",
+    "viewports",
+    "konvajs"
   ],
   "ignorePaths": [
     "node_modules",
@@ -48,6 +50,9 @@
     "package-lock.json",
     "reports",
     "report",
-    ".git"
+    ".git",
+    "playwright-report/**",
+    "test-results/**",
+    "e2e/visual.spec.ts-snapshots/**"
   ]
 }

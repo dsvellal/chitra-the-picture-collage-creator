@@ -57,6 +57,7 @@ export const CanvasProperties: React.FC<CanvasPropertiesProps> = ({ settings, on
                                 value={settings.backgroundColor}
                                 onChange={(e) => onUpdate({ backgroundColor: e.target.value })}
                                 className="absolute -top-1/2 -left-1/2 w-[200%] h-[200%] p-0 m-0 cursor-pointer opacity-100"
+                                data-testid="bg-color-picker"
                             />
                         </div>
                         <div className="flex flex-col">
@@ -84,6 +85,7 @@ export const CanvasProperties: React.FC<CanvasPropertiesProps> = ({ settings, on
                                 value={settings.padding}
                                 onChange={(e) => onUpdate({ padding: Number(e.target.value) })}
                                 className="w-full h-1 bg-slate-700 rounded-full appearance-none accent-indigo-500 cursor-pointer"
+                                data-testid="padding-slider"
                             />
                         </div>
 

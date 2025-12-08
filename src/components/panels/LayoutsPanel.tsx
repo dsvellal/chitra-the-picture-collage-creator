@@ -10,11 +10,11 @@ export const LayoutsPanel = () => {
             <section>
                 <h3 className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-4">Auto Layouts</h3>
                 <div className="grid grid-cols-2 gap-3">
-                    <button onClick={() => applyLayout('grid')} className="flex flex-col items-center gap-2 p-3 rounded-xl bg-slate-800 border border-white/5 hover:border-indigo-500/50 hover:bg-slate-700 transition">
+                    <button onClick={() => applyLayout('grid')} className="flex flex-col items-center gap-2 p-3 rounded-xl bg-slate-800 border border-white/5 hover:border-indigo-500/50 hover:bg-slate-700 transition" data-testid="layout-grid">
                         <Grid size={24} className="text-indigo-400" />
                         <span className="text-xs font-medium text-slate-300">Grid</span>
                     </button>
-                    <button onClick={() => applyLayout('mosaic')} className="flex flex-col items-center gap-2 p-3 rounded-xl bg-slate-800 border border-white/5 hover:border-indigo-500/50 hover:bg-slate-700 transition">
+                    <button onClick={() => applyLayout('mosaic')} className="flex flex-col items-center gap-2 p-3 rounded-xl bg-slate-800 border border-white/5 hover:border-indigo-500/50 hover:bg-slate-700 transition" data-testid="layout-mosaic">
                         <Layers size={24} className="text-pink-400" />
                         <span className="text-xs font-medium text-slate-300">Mosaic</span>
                     </button>

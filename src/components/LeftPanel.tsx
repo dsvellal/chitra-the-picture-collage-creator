@@ -15,9 +15,9 @@ export const LeftPanel: React.FC = () => {
         <div className="flex h-full border-r border-white/10 bg-slate-900/50 backdrop-blur-xl">
             {/* ... Sidebar icons ... */}
             <div className="w-16 flex flex-col items-center py-6 gap-6 border-r border-white/5">
-                <NavIcon icon={Upload} label="Uploads" active={activeTab === 'uploads'} onClick={() => setActiveTab('uploads')} />
-                <NavIcon icon={Layout} label="Layouts" active={activeTab === 'layouts'} onClick={() => setActiveTab('layouts')} />
-                <NavIcon icon={Type} label="Text" active={activeTab === 'text'} onClick={() => setActiveTab('text')} />
+                <NavIcon icon={Upload} label="Uploads" active={activeTab === 'uploads'} onClick={() => setActiveTab('uploads')} testId="nav-uploads" />
+                <NavIcon icon={Layout} label="Layouts" active={activeTab === 'layouts'} onClick={() => setActiveTab('layouts')} testId="nav-layouts" />
+                <NavIcon icon={Type} label="Text" active={activeTab === 'text'} onClick={() => setActiveTab('text')} testId="nav-text" />
                 <NavIcon icon={Sticker} label="Stickers" active={activeTab === 'stickers'} onClick={() => setActiveTab('stickers')} />
 
                 <div className="mt-auto">
@@ -38,9 +38,10 @@ export const LeftPanel: React.FC = () => {
     );
 };
 
-const NavIcon = ({ icon: Icon, label, active, onClick }: { icon: React.ElementType, label: string, active: boolean, onClick: () => void }) => (
+const NavIcon = ({ icon: Icon, label, active, onClick, testId }: { icon: React.ElementType, label: string, active: boolean, onClick: () => void, testId?: string }) => (
     <button
         onClick={onClick}
+        data-testid={testId}
         className={clsx(
             "flex flex-col items-center gap-1 p-2 rounded-xl transition-all",
             active ? "text-indigo-400 bg-indigo-500/10" : "text-slate-400 hover:text-slate-200 hover:bg-white/5"

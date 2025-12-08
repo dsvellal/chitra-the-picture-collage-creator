@@ -94,7 +94,7 @@ export const UploadsPanel = () => {
                     </div>
                 )}
             </div>
-            <input type="file" id="hidden-file-input" multiple accept="image/*" className="hidden" onChange={(e) => processFiles(e.target.files)} />
+            <input type="file" id="hidden-file-input" multiple accept="image/*" className="hidden" onChange={(e) => processFiles(e.target.files)} data-testid="file-upload-input" />
         </div>
     );
 };
