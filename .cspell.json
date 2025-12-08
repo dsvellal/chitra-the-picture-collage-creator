@@ -40,7 +40,7 @@
     "mview",
     "mwidth",
     "mxmlns",
-    "viewports",
+    "mxmlns",
     "konvajs"
   ],
   "ignorePaths": [
@@ -51,8 +51,6 @@
     "reports",
     "report",
     ".git",
-    "playwright-report/**",
-    "test-results/**",
-    "e2e/visual.spec.ts-snapshots/**"
+    ".git"
   ]
 }

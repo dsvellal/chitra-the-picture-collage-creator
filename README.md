@@ -76,8 +76,8 @@ This single command runs:
 56. 100% Coverage Checks
 7. Mutation Testing
 8. Spelling & Security Checks
-9. Visual Regression Testing (`npx playwright test`)
+8. Spelling & Security Checks
 
 ## 📚 Technical Architecture
 - [Performance Investigation](./docs/performance_investigation.md): Analysis of OffscreenCanvas and Web Helpers for 4K exports.
-- [Visual Regression (Implemented)](./docs/visual_regression_setup.md): Strategy and validation for Playwright implementation.
+
