@@ -13,11 +13,19 @@ if (!fs.existsSync(reportPath)) {
 }
 
 const report = JSON.parse(fs.readFileSync(reportPath, 'utf8'));
-const survivors = report.files ? Object.values(report.files).reduce((acc, file) => {
-    return acc + file.mutants.filter(m => m.status === 'Survived').length;
-}, 0) : 0;
 
-console.log(`Survived Mutants: ${survivors}`);
+let survivors = 0;
+if (report.files) {
+    Object.entries(report.files).forEach(([fileName, fileData]) => {
+        const fileSurvivors = fileData.mutants.filter(m => m.status === 'Survived').length;
+        if (fileSurvivors > 0) {
+            console.log(`${path.basename(fileName)}: ${fileSurvivors}`);
+            survivors += fileSurvivors;
+        }
+    });
+}
+
+console.log(`\nTotal Survived Mutants: ${survivors}`);
 
 if (survivors > THRESHOLD) {
     console.error(`FAILURE: Too many surviving mutants (${survivors} > ${THRESHOLD})`);

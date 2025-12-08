@@ -21,12 +21,14 @@ A professional-grade, browser-based collage creator built with React, TypeScript
 - **Canvas Presets**: One-click resizing for Instagram, Stories, A4 Print, etc.
 - **Styling**: Adjust corner rounding, borders, shadows, and background colors.
 - **Photo Filters**: Brightness, Contrast, Grayscale, and more.
+- **Keyboard Shortcuts**: Power-user friendly controls (Undo/Redo, Delete, Movement).
+- **Toast Notifications**: Real-time feedback for all actions.
 
 ## 🛡️ Zero-Compromise Engineering
 Chitra is built with an "Engineering First" mindset, ensuring complete reliability, security, and maintainability.
 
 - **100% Test Coverage**: Every line of code, branch, and function is tested. No exceptions.
-- **Mutation Tested**: We don't just test code; we test the tests. Using `Stryker`, we verify that 98.5% of logic mutations are caught.
+- **Mutation Tested**: We don't just test code; we test the tests. Using `Stryker`, we verify that >85% of logic mutations are caught (Strict Threshold Enforced).
 - **Strict Privacy (Offline First)**: Chitra operates centrally in the browser. A strict CI check ensures **no network requests** are ever made by the core logic. Your photos never leave your device.
 - **Zero Duplication**: Enforced by `jscpd` with a strict <75 token limit.
 - **Cyclomatic Complexity**: All functions are kept simple (complexity score < 5).

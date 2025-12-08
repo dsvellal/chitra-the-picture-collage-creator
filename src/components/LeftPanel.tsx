@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
-import { Upload, Layout, Type, Sticker } from 'lucide-react';
+import { Upload, Layout, Type, Sticker, Keyboard } from 'lucide-react';
 import clsx from 'clsx';
 import { UploadsPanel } from './panels/UploadsPanel';
 import { LayoutsPanel } from './panels/LayoutsPanel';
 import { TextPanel } from './panels/TextPanel';
 import { StickersPanel } from './panels/StickersPanel';
+import { ShortcutsDialog } from './ShortcutsDialog';
 
 export const LeftPanel: React.FC = () => {
     const [activeTab, setActiveTab] = useState<'uploads' | 'layouts' | 'text' | 'stickers'>('uploads');
+    const [showShortcuts, setShowShortcuts] = useState(false);
 
     return (
         <div className="flex h-full border-r border-white/10 bg-slate-900/50 backdrop-blur-xl">
@@ -17,6 +19,10 @@ export const LeftPanel: React.FC = () => {
                 <NavIcon icon={Layout} label="Layouts" active={activeTab === 'layouts'} onClick={() => setActiveTab('layouts')} />
                 <NavIcon icon={Type} label="Text" active={activeTab === 'text'} onClick={() => setActiveTab('text')} />
                 <NavIcon icon={Sticker} label="Stickers" active={activeTab === 'stickers'} onClick={() => setActiveTab('stickers')} />
+
+                <div className="mt-auto">
+                    <NavIcon icon={Keyboard} label="Help" active={showShortcuts} onClick={() => setShowShortcuts(true)} />
+                </div>
             </div>
 
             {/* Panel Content */}
@@ -26,6 +32,8 @@ export const LeftPanel: React.FC = () => {
                 {activeTab === 'text' && <TextPanel />}
                 {activeTab === 'stickers' && <StickersPanel />}
             </div>
+
+            <ShortcutsDialog isOpen={showShortcuts} onClose={() => setShowShortcuts(false)} />
         </div>
     );
 };

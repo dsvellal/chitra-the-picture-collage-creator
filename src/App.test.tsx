@@ -1,7 +1,9 @@
-import { render, screen, fireEvent } from '@testing-library/react';
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { render, screen, fireEvent, act } from '@testing-library/react';
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import App from './App';
+import { ToastProvider } from './contexts/ToastContext';
 import { useCollageStore } from './store/collageStore';
+import React from 'react';
 
 // Mock child components
 vi.mock('./components/Layout', () => ({
@@ -46,13 +48,6 @@ vi.mock('react', async () => {
     return {
         ...actual,
         useRef: (initial: unknown) => {
-            // If calls with null (initial), we want to simulate having a current value in effects/callbacks
-            // But simplistic mock handles init only.
-            // Best to just rely on JSDOM behavior for ref, but we need to inject our mockStage.
-            // We can intercept the ref callback in the mocked CollageCanvas component if it accepted one, 
-            // but App passes `stageRef` prop. 
-            // We can assume App uses `useRef(null)`.
-            // We need to inject `mockStage` into `stageRef.current` manually during test?
             if (initial === null) {
                 return { current: mockStage };
             }
@@ -62,11 +57,20 @@ vi.mock('react', async () => {
     };
 });
 
+const renderApp = () => {
+    return render(
+        <ToastProvider>
+            <App />
+        </ToastProvider>
+    );
+};
+
 describe('App', () => {
     const mockUpdate = vi.fn();
     const mockSetSelected = vi.fn();
 
     beforeEach(() => {
+        vi.useFakeTimers();
         vi.clearAllMocks();
         // Setup store selector mock
         (useCollageStore as unknown as ReturnType<typeof vi.fn>).mockImplementation((selector: unknown) => {
@@ -81,13 +85,17 @@ describe('App', () => {
         (useCollageStore as unknown as { getState: () => unknown }).getState = () => ({ setSelectedItemId: mockSetSelected });
     });
 
+    afterEach(() => {
+        vi.useRealTimers();
+    });
+
     it('should call updateCollageItem', () => {
-        render(<App />);
+        renderApp();
         expect(((useCollageStore as unknown as { getState: () => { setSelectedItemId: unknown } }).getState()).setSelectedItemId).toBeDefined();
     });
 
     it('should render panels', () => {
-        render(<App />);
+        renderApp();
         expect(screen.getByTestId('layout')).toBeDefined();
         expect(screen.getByTestId('left-panel')).toBeDefined();
         expect(screen.getByTestId('right-panel')).toBeDefined();
@@ -95,7 +103,7 @@ describe('App', () => {
     });
 
     it('should handle crop modal flow', () => {
-        render(<App />);
+        renderApp();
 
         // Trigger edit
         fireEvent.click(screen.getByTestId('edit-btn'));
@@ -104,29 +112,44 @@ describe('App', () => {
         // Apply
         fireEvent.click(screen.getByText('Apply'));
         expect(mockUpdate).toHaveBeenCalledWith('1', { crop: { x: 0, y: 0, width: 10, height: 10 } });
-
-        // Modal should close (mock rendering depends on state update which works in real react env even with mocks)
-        // Wait, standard `useState` mock above just passed through.
     });
 
     it('should handle export', async () => {
-        render(<App />);
+        renderApp();
         const exportBtn = screen.getByTestId('export-btn');
 
         // Mock fallback download
+        const originalCreateElement = document.createElement.bind(document);
         const createElementSpy = vi.spyOn(document, 'createElement');
         const clickSpy = vi.fn();
-        createElementSpy.mockReturnValue({ click: clickSpy, download: '', href: '' } as unknown as HTMLAnchorElement);
+
+        createElementSpy.mockImplementation((tag) => {
+            if (tag === 'a') {
+                return {
+                    click: clickSpy,
+                    setAttribute: vi.fn(),
+                    download: '',
+                    href: ''
+                } as unknown as HTMLAnchorElement;
+            }
+            return originalCreateElement(tag);
+        });
+
         document.body.appendChild = vi.fn();
         document.body.removeChild = vi.fn();
 
         fireEvent.click(exportBtn);
 
+        // Should not have exported yet (debounce/timeout check)
+        expect(mockStage.toDataURL).not.toHaveBeenCalled();
+
         // Export happens in timeout
-        await new Promise(r => setTimeout(r, 150));
+        await act(async () => {
+            vi.advanceTimersByTime(150);
+        });
 
         expect(mockSetSelected).toHaveBeenCalledWith(null);
-        expect(mockStage.toDataURL).toHaveBeenCalled();
+        expect(mockStage.toDataURL).toHaveBeenCalledWith({ pixelRatio: 2 });
         // Check download trigger
         expect(createElementSpy).toHaveBeenCalledWith('a');
     });
