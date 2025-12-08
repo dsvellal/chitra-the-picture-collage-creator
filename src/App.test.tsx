@@ -71,6 +71,21 @@ describe('App', () => {
 
     beforeEach(() => {
         vi.useFakeTimers();
+
+        // Mock URL.createObjectURL/revokeObjectURL for FileSystemService
+        if (!global.URL.createObjectURL) {
+            global.URL.createObjectURL = vi.fn(() => 'blob:url');
+            global.URL.revokeObjectURL = vi.fn();
+        } else {
+            vi.spyOn(URL, 'createObjectURL').mockReturnValue('blob:url');
+            vi.spyOn(URL, 'revokeObjectURL').mockImplementation(() => { });
+        }
+
+        // Mock fetch for Blob creation (avoid network check failure)
+        global.fetch = vi.fn(() => Promise.resolve({
+            blob: () => Promise.resolve(new Blob(['test'], { type: 'image/png' }))
+        })) as unknown as typeof fetch;
+
         vi.clearAllMocks();
         // Setup store selector mock
         (useCollageStore as unknown as ReturnType<typeof vi.fn>).mockImplementation((selector: unknown) => {

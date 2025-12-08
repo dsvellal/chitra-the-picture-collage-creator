@@ -4,8 +4,9 @@
   "words": [
     "zustand",
     "lucide",
-    "konva",
-    "clsx",
+    "toastr",
+    "unist",
+    "unstub",
     "vite",
     "vitest",
     "chitra",
@@ -16,6 +17,7 @@
     "dsvellal",
     "uuidv",
     "srcs",
+    "Srcs",
     "picasa",
     "grayscale",
     "nums",
@@ -27,7 +29,17 @@
     "atrule",
     "dattatreya",
     "vellal",
-    "Canva"
+    "Canva",
+    "Konva",
+    "konva",
+    "evenodd",
+    "linejoin",
+    "miterlimit",
+    "linecap",
+    "mstroke",
+    "mview",
+    "mwidth",
+    "mxmlns"
   ],
   "ignorePaths": [
     "node_modules",
@@ -35,6 +47,7 @@
     "coverage",
     "package-lock.json",
     "reports",
-    "report"
+    "report",
+    ".git"
   ]
 }

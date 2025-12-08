@@ -15,7 +15,7 @@
     "check:mutation": "stryker run && node scripts/check-mutants.cjs",
     "check:offline": "node scripts/check-offline.cjs",
     "check:qa": "eslint . --config eslint.qa.config.js",
-    "check:spelling": "cspell \"**/*\" --no-progress",
+    "check:spelling": "cspell \"**/*\" --config .cspell.json --no-progress",
     "check:all": "npm run lint && npm run check:complexity && npm run check:duplication && npm run check:offline && npm run check:coverage && npm run check:mutation && npm run check:spelling"
   },
   "dependencies": {

@@ -2,6 +2,7 @@ import { useCallback } from 'react';
 import Konva from 'konva';
 import { useCollageStore } from '../store/collageStore';
 import { useToast } from '../contexts/ToastContext';
+import { fileSystemService } from '../services/FileSystemService';
 
 export const useExport = (stageRef: React.RefObject<Konva.Stage | null>) => {
     const { setSelectedItemId } = useCollageStore();
@@ -23,32 +24,19 @@ export const useExport = (stageRef: React.RefObject<Konva.Stage | null>) => {
                 const dateStr = now.toISOString().split('T')[0];
                 const timeStr = now.toTimeString().split(' ')[0].replace(/:/g, '-');
                 const fileName = `Chitra_Premium_${dateStr}_${timeStr}.png`;
-                // @ts-expect-error - experimental API
-                if (window.showSaveFilePicker) {
-                    // @ts-expect-error - showSaveFilePicker is an experimental API not yet in TS lib
-                    const handle = await window.showSaveFilePicker({
-                        suggestedName: fileName,
-                        types: [{
-                            description: 'PNG Image',
-                            accept: { 'image/png': ['.png'] },
-                        }],
-                    });
-                    const writable = await handle.createWritable();
-                    const blob = await (await fetch(dataURL)).blob();
-                    await writable.write(blob);
-                    await writable.close();
-                    addToast('Collage exported successfully!', 'success');
-                } else {
-                    // Fallback
-                    const link = document.createElement('a');
-                    link.setAttribute('download', fileName);
-                    link.setAttribute('href', dataURL);
-                    document.body.appendChild(link);
-                    link.click();
-                    document.body.removeChild(link);
-                    addToast('Export downloaded', 'success');
-                }
+
+                const blob = await (await fetch(dataURL)).blob();
+
+                await fileSystemService.saveFile(blob, fileName, {
+                    types: [{
+                        description: 'PNG Image',
+                        accept: { 'image/png': ['.png'] },
+                    }],
+                });
+
+                addToast('Collage exported successfully!', 'success');
             } catch (err) {
+                // Check for user cancellation (optional to handler here if service throws specific error)
                 console.error('Export failed:', err);
                 addToast('Failed to export collage', 'error');
             }
