@@ -1,6 +1,6 @@
 import { renderHook, act, render, screen, fireEvent } from '@testing-library/react';
 import { useEffect } from 'react';
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import { useCanvasZoom } from './useCanvasZoom';
 
 describe('useCanvasZoom', () => {
