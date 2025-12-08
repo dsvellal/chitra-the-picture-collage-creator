@@ -117,6 +117,15 @@ describe('layoutUtils', () => {
             // Check specific mutant: yOffset -= ... vs +=
             // If -=, lastItem.y would be negative or 0.
             expect(lastItem.y).toBeGreaterThan(50);
+
+            // Check item heights sum up?
+            // Row height calculation involves aspect ratios.
+            // 4 items 100x100. Aspect ratio sum per row depends on row break.
+            // If all 4 in 1 row: Aspect 4. Width 200. Height = 200/4 = 50.
+            // But layoutUtils might break rows earlier?
+            // Let's verify row structure.
+            // Item 0 y=0. Item 1 y=0?
+            // If row break, Item K y > 0.
         });
 
         it('should respect padding in mosaic', () => {

@@ -82,11 +82,13 @@ describe('useItemInteraction', () => {
         expect(mockSwap).toHaveBeenCalledWith('1', '2');
     });
 
+    const setupGridMode = () => setupHook({
+        collageItems: [{ id: '2', x: 0, y: 0, width: 100, height: 100 }],
+        layoutMode: 'grid'
+    });
+
     it('should re-apply grid layout if dropped in empty space', () => {
-        const { result, mockSwap, mockApplyLayout } = setupHook({
-            collageItems: [{ id: '2', x: 0, y: 0, width: 100, height: 100 }],
-            layoutMode: 'grid'
-        });
+        const { result, mockSwap, mockApplyLayout } = setupGridMode();
 
         act(() => {
             result.current.handleItemChange(defaultItem, { x: 500, y: 500 });
@@ -119,27 +121,14 @@ describe('useItemInteraction', () => {
         expect(mockUpdate).toHaveBeenCalledWith('1', { x: 10 });
     });
 
-    it('should handle partial coordinates (only x)', () => {
-        const { result, mockApplyLayout } = setupHook({
-            collageItems: [{ id: '2', x: 0, y: 0, width: 100, height: 100 }],
-            layoutMode: 'grid'
-        });
+    it.each([
+        { update: { x: 50 }, desc: 'only x' },
+        { update: { y: 50 }, desc: 'only y' }
+    ])('should handle partial coordinates ($desc)', ({ update }) => {
+        const { result, mockApplyLayout } = setupGridMode();
 
         act(() => {
-            result.current.handleItemChange(defaultItem, { x: 50 });
-        });
-
-        expect(mockApplyLayout).toHaveBeenCalled();
-    });
-
-    it('should handle partial coordinates (only y)', () => {
-        const { result, mockApplyLayout } = setupHook({
-            collageItems: [{ id: '2', x: 0, y: 0, width: 100, height: 100 }],
-            layoutMode: 'grid'
-        });
-
-        act(() => {
-            result.current.handleItemChange(defaultItem, { y: 50 });
+            result.current.handleItemChange(defaultItem, update);
         });
 
         expect(mockApplyLayout).toHaveBeenCalled();

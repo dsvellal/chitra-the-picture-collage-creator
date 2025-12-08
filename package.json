@@ -10,7 +10,7 @@
     "preview": "vite preview",
     "test": "vitest",
     "check:coverage": "vitest run --coverage",
-    "check:duplication": "jscpd src --config config/jscpd.json --threshold 75",
+    "check:duplication": "jscpd src --config config/jscpd.json",
     "check:complexity": "eslint . --config eslint.complexity.config.js",
     "check:mutation": "stryker run && node scripts/check-mutants.cjs",
     "check:offline": "node scripts/check-offline.cjs",

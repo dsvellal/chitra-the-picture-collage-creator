@@ -1,5 +1,5 @@
 /// <reference types="vitest" />
-import { defineConfig } from 'vitest/config';
+import { defineConfig, configDefaults } from 'vitest/config';
 import react from '@vitejs/plugin-react';
 import fs from 'fs';
 
@@ -8,7 +8,7 @@ const config = JSON.parse(fs.readFileSync('./config/thresholds.json', 'utf8'));
 export default defineConfig({
   plugins: [react()],
   test: {
-    exclude: ['node_modules/**', 'dist/**', '.git/**'],
+    exclude: [...configDefaults.exclude, '.stryker-tmp/**'],
     environment: 'jsdom',
     setupFiles: './src/setupTests.ts',
     globals: true,
@@ -31,8 +31,8 @@ export default defineConfig({
       thresholds: {
         lines: config.coverage,
         functions: config.coverage,
-        branches: 80, // Keeping branches slightly lower as global metric, or should we align? User said "magic number used in defining thresholds".
-        statements: 97
+        branches: config.coverage,
+        statements: config.coverage
       }
     }
   }

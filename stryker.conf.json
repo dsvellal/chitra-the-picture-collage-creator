@@ -22,5 +22,10 @@
     "json"
   ],
   "coverageAnalysis": "perTest",
-  "ignoreStatic": true
+  "ignoreStatic": true,
+  "thresholds": {
+    "high": 90,
+    "low": 85,
+    "break": 90
+  }
 }

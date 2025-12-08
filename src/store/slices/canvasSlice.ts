@@ -44,6 +44,17 @@ const recalculateLayoutIfActive = (
     });
 };
 
+const updateHistory = (state: CanvasSlice & UISlice, newItems: CollageItem[], diff: Partial<CanvasSlice> = {}) => {
+    const newPast = [...state.past, state.collageItems];
+    if (newPast.length > MAX_HISTORY) newPast.shift();
+    return {
+        past: newPast,
+        future: [],
+        collageItems: newItems,
+        ...diff
+    };
+};
+
 export const createCanvasSlice: StateCreator<CanvasSlice & UISlice, [], [], CanvasSlice> = (set) => ({
     collageItems: [],
     layoutMode: 'free',
@@ -61,57 +72,29 @@ export const createCanvasSlice: StateCreator<CanvasSlice & UISlice, [], [], Canv
         set((state) => {
             const newItems = [...state.collageItems, item];
             const finalItems = recalculateLayoutIfActive(newItems, state.layoutMode, state.canvasSettings);
-            const newPast = [...state.past, state.collageItems];
-            if (newPast.length > MAX_HISTORY) newPast.shift();
-
-            return {
-                past: newPast,
-                future: [],
-                collageItems: finalItems
-            };
+            return updateHistory(state, finalItems);
         }),
 
     addCollageItems: (items) =>
         set((state) => {
             const newItems = [...state.collageItems, ...items];
             const finalItems = recalculateLayoutIfActive(newItems, state.layoutMode, state.canvasSettings);
-            const newPast = [...state.past, state.collageItems];
-            if (newPast.length > MAX_HISTORY) newPast.shift();
-
-            return {
-                past: newPast,
-                future: [],
-                collageItems: finalItems
-            };
+            return updateHistory(state, finalItems);
         }),
 
     updateCollageItem: (id, updates) =>
         set((state) => {
-            const newPast = [...state.past, state.collageItems];
-            if (newPast.length > MAX_HISTORY) newPast.shift();
-
-            return {
-                past: newPast,
-                future: [],
-                collageItems: state.collageItems.map((item) =>
-                    item.id === id ? { ...item, ...updates } : item
-                ),
-                layoutMode: 'free'
-            };
+            const newItems = state.collageItems.map((item) =>
+                item.id === id ? { ...item, ...updates } : item
+            );
+            return updateHistory(state, newItems, { layoutMode: 'free' });
         }),
 
     removeCollageItem: (id) =>
         set((state) => {
             const newItems = state.collageItems.filter((item) => item.id !== id);
             const finalItems = recalculateLayoutIfActive(newItems, state.layoutMode, state.canvasSettings);
-            const newPast = [...state.past, state.collageItems];
-            if (newPast.length > MAX_HISTORY) newPast.shift();
-
-            return {
-                past: newPast,
-                future: [],
-                collageItems: finalItems,
-            };
+            return updateHistory(state, finalItems);
         }),
 
     undo: () =>

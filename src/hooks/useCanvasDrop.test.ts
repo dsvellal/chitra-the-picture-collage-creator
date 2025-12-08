@@ -129,4 +129,61 @@ describe('useCanvasDrop', () => {
         result.current.handleDrop(mockEvent as unknown as React.DragEvent<HTMLDivElement>);
         expect(mockStageNoPointer.current.getRelativePointerPosition).toHaveBeenCalled();
     });
+    it('should ignore empty array in JSON', () => {
+        const { result } = setupHook();
+        const mockEvent = {
+            preventDefault: vi.fn(),
+            dataTransfer: {
+                getData: (key: string) => key === 'imageSrcs' ? '[]' : ''
+            }
+        };
+
+        act(() => {
+            result.current.handleDrop(mockEvent as unknown as React.DragEvent<HTMLDivElement>);
+        });
+
+        expect(processDroppedImages).not.toHaveBeenCalled();
+    });
+
+    it('should use imageSrcs if both present', () => {
+        const { result } = setupHook();
+        const srcs = ['img1.jpg'];
+        const mockEvent = {
+            preventDefault: vi.fn(),
+            dataTransfer: {
+                getData: (key: string) => {
+                    if (key === 'imageSrcs') return JSON.stringify(srcs);
+                    if (key === 'imageSrc') return 'single.jpg';
+                    return '';
+                }
+            }
+        };
+
+        act(() => {
+            result.current.handleDrop(mockEvent as unknown as React.DragEvent<HTMLDivElement>);
+        });
+
+        expect(processDroppedImages).toHaveBeenCalledWith(
+            ['img1.jpg'], expect.anything(), expect.anything(), expect.anything(), expect.anything(), expect.anything()
+        );
+        // Verify we didn't call it again for singleSrc?
+        // processDroppedImages is mocked fn.
+        expect(processDroppedImages).toHaveBeenCalledTimes(1);
+    });
+
+    it('should handle drop with no data', () => {
+        const { result } = setupHook();
+        const mockEvent = {
+            preventDefault: vi.fn(),
+            dataTransfer: {
+                getData: () => ''
+            }
+        };
+
+        act(() => {
+            result.current.handleDrop(mockEvent as unknown as React.DragEvent<HTMLDivElement>);
+        });
+
+        expect(processDroppedImages).not.toHaveBeenCalled();
+    });
 });

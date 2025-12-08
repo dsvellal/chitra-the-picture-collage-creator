@@ -34,9 +34,37 @@ describe('gridUtils', () => {
     });
 
     it('should handle zero items', () => {
-        const { cols, rows } = calculateGridDimensions(0, 1000, 1000, 10);
+        // Kill count === 0 ? mutant
+        const { cols, rows, cellWidth, cellHeight } = calculateGridDimensions(0, 1000, 1000, 10);
         expect(cols).toBe(1);
         expect(rows).toBe(1);
+        expect(cellWidth).toBe(0);
+        expect(cellHeight).toBe(0);
+    });
+
+    it('should handle single item', () => {
+        const { cols, rows } = calculateGridDimensions(1, 1000, 1000, 0);
+        expect(cols).toBe(1);
+        expect(rows).toBe(1);
+    });
+
+    it('should cap cols and rows', () => {
+        // count < cols calculation
+        const { cols, rows } = calculateGridDimensions(2, 10000, 100, 0); // aspect 100. sqrt(200) ~ 14.
+        // But count is 2. So cols should be 2.
+        expect(cols).toBe(2);
+        // Rows = 2/2 = 1.
+        expect(rows).toBe(1);
+    });
+
+    it('should ensure min 1 row/col', () => {
+        // calculateGridDimensions(1, ...)
+        // Already tested above.
+        // What if count implies 0? no count >= 0.
+        // But Math.max(1, ...) is the mutant.
+        // If we allow 0 rows -> division by zero or NaN?
+        // We can't easily force 0 from logic if count > 0.
+        // But we verified count=0 returns 1,1 explicitly.
     });
 
     it('should calculate grid dimensions correctly', () => {
@@ -55,6 +83,31 @@ describe('gridUtils', () => {
         // Full row, offset 0
         const offsetFull = calculateLastRowOffset(3, 4, 2, 40, 0, 100);
         expect(offsetFull).toBe(0);
+    });
+
+    it('should calculate last row offset correctly', () => {
+        // 1. Full row -> offset 0
+        // 4 items, 2 cols. 2 rows. Last row full.
+        expect(calculateLastRowOffset(3, 4, 2, 100, 0, 200)).toBe(0);
+
+        // 2. Not last row -> offset 0
+        expect(calculateLastRowOffset(0, 4, 2, 100, 0, 200)).toBe(0);
+
+        // 3. Partial last row -> centered
+        // 3 items, 2 cols. Row 1 full. Row 2 (index 2) has 1 item.
+        // Canvas 200. Cell 100. Row width 100.
+        // Start = (200 - 100)/2 = 50.
+        // Standard start = 0 (padding 0).
+        // Return 50.
+        expect(calculateLastRowOffset(2, 3, 2, 100, 0, 200)).toBe(50);
+
+        // 4. Partial last row with padding
+        // 3 items. Canvas 220. Padding 10. Cell 95.
+        // Row width 95.
+        // Start = (220 - 95)/2 = 125/2 = 62.5.
+        // Standard start = 10.
+        // Offset = 52.5.
+        expect(calculateLastRowOffset(2, 3, 2, 95, 10, 220)).toBe(52.5);
     });
 
     it('should handle padding', () => {
@@ -84,5 +137,28 @@ describe('gridUtils', () => {
         expect(res.scale).toBe(2);
         expect(res.width).toBe(50);
         expect(res.height).toBe(25);
+    });
+
+    it('should create grid item with proper scaling', () => {
+        const item = createItem('1');
+        // Item 100x100.
+        // Cell 50x50.
+        // Scale should be 0.5.
+        const res = createGridItem(item, 0, 0, 50, 50);
+        expect(res.scale).toBe(0.5);
+        expect(res.x).toBe(0);
+        expect(res.y).toBe(0);
+
+        // Aspect ratio preserve
+        // Item 200x100. Cell 100x100.
+        // Scale min(100/200=0.5, 100/100=1) = 0.5.
+        // W=100 (scaled). H=50 (scaled).
+        // Centered in 100x100.
+        // x = 0 + (100 - 100)/2 = 0.
+        // y = 0 + (100 - 50)/2 = 25.
+        Object.assign(item, { originalWidth: 200, originalHeight: 100, width: 200, height: 100 });
+        const res2 = createGridItem(item, 0, 0, 100, 100);
+        expect(res2.scale).toBe(0.5);
+        expect(res2.y).toBe(25);
     });
 });

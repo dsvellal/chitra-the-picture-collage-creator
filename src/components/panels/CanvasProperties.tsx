@@ -1,11 +1,33 @@
-import React from 'react';
-import { Maximize, Palette, Move, Sliders } from 'lucide-react';
+import React, { useState } from 'react';
+import { Maximize, Palette, Move, Sliders, ChevronDown, ChevronRight, Layout as LayoutIcon, Type, Sticker } from 'lucide-react';
 import type { CanvasSettings } from '../../store/collageStore';
+import { LayoutsPanel } from './LayoutsPanel';
+import { TextPanel } from './TextPanel';
+import { StickersPanel } from './StickersPanel';
 
 interface CanvasPropertiesProps {
     settings: CanvasSettings;
     onUpdate: (settings: Partial<CanvasSettings>) => void;
 }
+
+const AccordionItem = ({ title, icon: Icon, children, defaultOpen = false }: { title: string, icon: React.ElementType, children: React.ReactNode, defaultOpen?: boolean }) => {
+    const [isOpen, setIsOpen] = useState(defaultOpen);
+    return (
+        <div className="border-b border-white/5 last:border-0">
+            <button
+                onClick={() => setIsOpen(!isOpen)}
+                className="w-full flex items-center justify-between p-4 hover:bg-white/5 transition-colors"
+            >
+                <div className="flex items-center gap-2 text-slate-300 font-medium text-sm">
+                    <Icon size={16} className="text-indigo-400" />
+                    {title}
+                </div>
+                {isOpen ? <ChevronDown size={14} className="text-slate-500" /> : <ChevronRight size={14} className="text-slate-500" />}
+            </button>
+            {isOpen && <div className="p-4 pt-0">{children}</div>}
+        </div>
+    );
+};
 
 export const CanvasProperties: React.FC<CanvasPropertiesProps> = ({ settings, onUpdate }) => {
     return (
@@ -17,12 +39,8 @@ export const CanvasProperties: React.FC<CanvasPropertiesProps> = ({ settings, on
                 </h2>
             </div>
 
-            <div className="flex-1 overflow-y-auto custom-scrollbar p-5 space-y-8">
-                {/* Canvas Dimensions */}
-                <section>
-                    <h3 className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-4 flex items-center gap-2">
-                        <Maximize size={12} /> Canvas Size
-                    </h3>
+            <div className="flex-1 overflow-y-auto custom-scrollbar">
+                <AccordionItem title="Canvas Size" icon={Maximize} defaultOpen={true}>
                     <div className="grid grid-cols-2 gap-3">
                         <div className="space-y-1">
                             <label className="text-[10px] font-medium text-slate-400">Width (px)</label>
@@ -43,13 +61,9 @@ export const CanvasProperties: React.FC<CanvasPropertiesProps> = ({ settings, on
                             />
                         </div>
                     </div>
-                </section>
+                </AccordionItem>
 
-                {/* Background */}
-                <section>
-                    <h3 className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-4 flex items-center gap-2">
-                        <Palette size={12} /> Background
-                    </h3>
+                <AccordionItem title="Background" icon={Palette}>
                     <div className="flex items-center gap-3 p-3 bg-slate-800 rounded-xl border border-white/5">
                         <div className="relative w-10 h-10 rounded-full overflow-hidden border border-white/20 shadow-inner">
                             <input
@@ -65,14 +79,9 @@ export const CanvasProperties: React.FC<CanvasPropertiesProps> = ({ settings, on
                             <span className="text-sm font-mono text-slate-200 uppercase">{settings.backgroundColor}</span>
                         </div>
                     </div>
-                </section>
+                </AccordionItem>
 
-                {/* Global Styling */}
-                <section>
-                    <h3 className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-4 flex items-center gap-2">
-                        <Move size={12} /> Global Styling
-                    </h3>
-
+                <AccordionItem title="Global Styling" icon={Move}>
                     <div className="space-y-5">
                         <div className="space-y-2">
                             <div className="flex justify-between">
@@ -103,7 +112,23 @@ export const CanvasProperties: React.FC<CanvasPropertiesProps> = ({ settings, on
                             />
                         </div>
                     </div>
-                </section>
+                </AccordionItem>
+
+                <div className="border-t border-white/10 mt-4 pt-2">
+                    <p className="px-4 py-2 text-xs font-bold text-slate-500 uppercase tracking-wider">Add to Collage</p>
+
+                    <AccordionItem title="Layouts" icon={LayoutIcon}>
+                        <LayoutsPanel />
+                    </AccordionItem>
+
+                    <AccordionItem title="Text" icon={Type}>
+                        <TextPanel />
+                    </AccordionItem>
+
+                    <AccordionItem title="Stickers" icon={Sticker}>
+                        <StickersPanel />
+                    </AccordionItem>
+                </div>
             </div>
         </div>
     );

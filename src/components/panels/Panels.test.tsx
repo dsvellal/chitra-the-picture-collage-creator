@@ -25,6 +25,10 @@ vi.mock('lucide-react', () => ({
     Maximize: () => <div>Icon</div>,
     Palette: () => <div>Icon</div>,
     Move: () => <div>Icon</div>,
+    Layout: () => <div>Icon</div>,
+    Sticker: () => <div>Icon</div>,
+    ChevronDown: () => <div>Icon</div>,
+    ChevronRight: () => <div>Icon</div>,
     Contrast: () => <div>Icon</div>,
 }));
 
