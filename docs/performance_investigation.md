@@ -28,4 +28,4 @@ Moving the export logic to a Web Worker allows the main thread to remain respons
 6.  **Save**: Main thread saves Blob (using `FileSystemService`).
 
 ## Recommendation
-For the current release ("Phase 12"), the performance is acceptable for typical 1080p-4K use cases. Implementing the Worker architecture is recommended for **Phase 15 (Enterprise/Print Features)** as it introduces significant complexity around asset management and synchronization.
+For the current release, the performance is acceptable for typical 1080p-4K use cases. Implementing the Worker architecture is recommended for **Enterprise/Print Features** as it introduces significant complexity around asset management and synchronization.

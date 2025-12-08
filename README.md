@@ -79,5 +79,5 @@ This single command runs:
 
 ## 📚 Technical Architecture
 - [Performance Investigation](./docs/performance_investigation.md): Analysis of OffscreenCanvas and Web Helpers for 4K exports.
-- [Visual Regression](./docs/visual_regression_setup.md): Strategy for Playwright implementation (Phase 15).
+- [Visual Regression](./docs/visual_regression_setup.md): Strategy for Playwright implementation.
 

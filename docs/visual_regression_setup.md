@@ -54,7 +54,7 @@ test('canvas renders correctly', async ({ page }) => {
 ### 4. Workflow Integration
 Update `.github/workflows/playwright.yml` to run on PRs. Note that Linux rendering (CI) often differs slightly from macOS. Use Docker or only run visual tests on one OS to ensure consistency.
 
-## Implementation Plan (Phase 15)
+## Implementation Plan
 1.  Install Playwright.
 2.  Create "Fixture Collages" (JSON files loaded on startup for testing).
 3.  Establish baseline snapshots.
