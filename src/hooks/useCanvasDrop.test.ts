@@ -33,7 +33,7 @@ describe('useCanvasDrop', () => {
         });
     });
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
     const setupHook = (stageRef: any = mockStageRef) => {
         return renderHook(() => useCanvasDrop(stageRef));
     };

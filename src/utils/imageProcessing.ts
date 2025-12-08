@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 import { calculateGridLayout } from './layoutUtils';
-import type { CollageItem, CanvasSettings } from '../store/collageStore';
+import type { CollageItem, CanvasSettings } from '../types';
 
 export const processDroppedImages = async (
     srcs: string[],

@@ -33,6 +33,24 @@ describe('layoutUtils', () => {
 
             // Second item: padding(10) + 90 + padding(10) = 110
             expect(layout[1].x).toBeGreaterThan(100);
+            // Verify Item 1 is in Row 0 (kill Math.floor vs Math.ceil mutant)
+            expect(layout[1].y).toBeCloseTo(10);
+
+            // Verify integrity of dimensions (kill cellWidth/Height mutants)
+            // Item width is 100. Cell width is 90. Scale should be 0.9.
+            expect(layout[0].width).toBe(100);
+            expect(layout[0].scale).toBe(0.9);
+            // Effective width
+            expect(layout[0].width * layout[0].scale).toBe(90);
+        });
+
+        it('should use default padding of 10 if undefined', () => {
+            const items = createItems(1);
+            const layout = calculateGridLayout({
+                canvasWidth: 100, canvasHeight: 100, items,
+                padding: undefined // Force default
+            });
+            expect(layout[0].x).toBe(10);
         });
 
         it('should center the last row (xOffset check)', () => {

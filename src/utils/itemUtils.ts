@@ -1,4 +1,4 @@
-import type { CollageItem } from '../store/collageStore';
+import type { CollageItem } from '../types';
 
 
 const getItemWidth = (item: Pick<CollageItem, 'originalWidth' | 'width'>) => item.originalWidth || item.width || 100;

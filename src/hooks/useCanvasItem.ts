@@ -1,6 +1,6 @@
 import { useRef, useEffect } from 'react';
 import Konva from 'konva';
-import type { CollageItem } from '../store/collageStore';
+import type { CollageItem } from '../types';
 
 export const useCanvasItem = <T extends Konva.Shape>(
     isSelected: boolean,

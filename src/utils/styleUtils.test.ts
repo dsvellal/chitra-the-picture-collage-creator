@@ -10,7 +10,12 @@ describe('styleUtils', () => {
     it('should return default styles if none present', () => {
         const styles = getItemStyles(baseItem);
         expect(styles.shadowColor).toBe('black');
+        expect(styles.shadowBlur).toBe(0);
+        expect(styles.shadowOffsetX).toBe(0);
+        expect(styles.shadowOffsetY).toBe(0);
+        expect(styles.shadowOpacity).toBe(0);
         expect(styles.brightness).toBe(0);
+        expect(styles.contrast).toBe(0);
     });
 
     it('should return custom styles', () => {

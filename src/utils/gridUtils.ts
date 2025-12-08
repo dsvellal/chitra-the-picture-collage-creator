@@ -1,4 +1,4 @@
-import type { CollageItem } from '../store/collageStore';
+import type { CollageItem } from '../types';
 
 interface GridDimensions {
     cols: number;

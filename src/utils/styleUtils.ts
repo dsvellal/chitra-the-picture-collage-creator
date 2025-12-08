@@ -1,4 +1,4 @@
-import type { CollageItem } from '../store/collageStore';
+import type { CollageItem } from '../types';
 
 export const getItemStyles = (item: CollageItem) => {
     const shadow = item.shadow || { color: 'black', blur: 0, offset: { x: 0, y: 0 }, opacity: 0 };

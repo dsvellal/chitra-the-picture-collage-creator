@@ -96,6 +96,10 @@ describe('selectionUtils', () => {
             const res = calculateNewSelection(prev, '2', 1, allIds, 0, false, false);
             expect(res.has('2')).toBe(true);
             expect(res.has('1')).toBe(true); // Since implementation adds it.
+
+            // Kill mutant: verify it actually toggles (removes) if present
+            const res2 = calculateNewSelection(res, '2', 1, allIds, 0, false, false);
+            expect(res2.has('2')).toBe(false);
         });
     });
 

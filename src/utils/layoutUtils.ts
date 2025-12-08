@@ -1,4 +1,4 @@
-import type { CollageItem } from '../store/collageStore';
+import type { CollageItem } from '../types';
 import { calculateGridDimensions, calculateLastRowOffset, createGridItem } from './gridUtils';
 import { calculateTargetRowHeight, findRowEndIndex, processRowItems, finalizeMosaicLayout } from './mosaicUtils';
 import { getItemDims } from './itemUtils';
