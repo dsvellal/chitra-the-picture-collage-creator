@@ -1,0 +1,39 @@
+{
+  "version": "0.2",
+  "language": "en",
+  "words": [
+    "zustand",
+    "lucide",
+    "konva",
+    "clsx",
+    "vite",
+    "vitest",
+    "chitra",
+    "collager",
+    "tailwindcss",
+    "jscpd",
+    "stryker",
+    "dsvellal",
+    "uuidv",
+    "srcs",
+    "picasa",
+    "grayscale",
+    "nums",
+    "oldstyle",
+    "extralight",
+    "clike",
+    "mathml",
+    "ssml",
+    "atrule",
+    "dattatreya",
+    "vellal"
+  ],
+  "ignorePaths": [
+    "node_modules",
+    "dist",
+    "coverage",
+    "package-lock.json",
+    "reports",
+    "report"
+  ]
+}

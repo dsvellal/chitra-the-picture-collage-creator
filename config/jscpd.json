@@ -1,0 +1,15 @@
+{
+  "threshold": 0,
+  "reporters": [
+    "console",
+    "json"
+  ],
+  "ignore": [
+    "**/vite-env.d.ts",
+    "dist/**",
+    "coverage/**"
+  ],
+  "absolute": true,
+  "minTokens": 75,
+  "failOnDuplication": true
+}
