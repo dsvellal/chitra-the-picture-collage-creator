@@ -1,6 +1,6 @@
 {
-    "complexity": 5,
-    "duplication": 75,
-    "coverage": 99,
-    "mutation": 40
+  "complexity": 5,
+  "duplication": 75,
+  "coverage": 99,
+  "mutation": 40
 }
