@@ -1,4 +1,15 @@
 # Chitra: Premium Collage Creator
+[![CI](https://github.com/dsvellal/picture-collage-creator/actions/workflows/ci.yml/badge.svg)](https://github.com/dsvellal/picture-collage-creator/actions/workflows/ci.yml)
+![Line Coverage](https://img.shields.io/badge/Line_Coverage-100%25-brightgreen)
+![Branch Coverage](https://img.shields.io/badge/Branch_Coverage-100%25-brightgreen)
+![Mutation](https://img.shields.io/badge/Mutation-90%25%2B-brightgreen)
+![Duplication](https://img.shields.io/badge/Duplication-0%25_@_50_Tokens-brightgreen)
+![Complexity](https://img.shields.io/badge/Complexity-%3C%205-brightgreen)
+![Spelling](https://img.shields.io/badge/Spelling-PASSED-brightgreen)
+![Documentation](https://img.shields.io/badge/Documentation-Enforced-brightgreen)
+![Linting](https://img.shields.io/badge/Linting-ESLint-blue)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
 
 A professional-grade, browser-based collage creator built with React, TypeScript, and Konva.
 
@@ -77,7 +88,3 @@ This single command runs:
 7. Mutation Testing
 8. Spelling & Security Checks
 8. Spelling & Security Checks
-
-## 📚 Technical Architecture
-- [Performance Investigation](./docs/performance_investigation.md): Analysis of OffscreenCanvas and Web Helpers for 4K exports.
-
