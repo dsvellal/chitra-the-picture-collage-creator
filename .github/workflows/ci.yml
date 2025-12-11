@@ -40,6 +40,9 @@ jobs:
       - name: QA Checks (Security, Docs, Formats)
         run: npm run check:qa
 
+      - name: Audit Check
+        run: npm run check:audit
+
       - name: Spelling Check
         run: npm run check:spelling
 
